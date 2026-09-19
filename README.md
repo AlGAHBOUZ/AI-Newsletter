@@ -130,28 +130,6 @@ python main.py         # full run — collect, analyze, filter, generate, send
 | `data_collected.json` | Collection + enrichment + cleaning |
 | `data_output_sample.json` | AI analysis (LLM calls) |
 | *(neither)* | Newsletter generation + email only |
-
----
-
-## Web App
-
-```bash
-flask --app app run    # local dev server at http://localhost:5000
-```
-
-A user enters their email on the landing page. The server checks for today's cached analysis file (`data_YYYY-MM-DD.json`). If it exists, newsletter generation and delivery are near-instant. If not, the full pipeline runs first (~5–10 min for the first request each day).
-
----
-
-## Deployment (Render)
-
-1. Push the project to a GitHub repository
-2. Create a new **Web Service** on [render.com](https://render.com) and connect the repo — Render detects `render.yaml` automatically
-3. Add the following environment variables in the Render dashboard:
-
-```
-GEMINI_API_KEY
-GMAIL_ADDRESS
 GMAIL_APP_PASSWORD
 LLM_PROVIDER=gemini
 GEMINI_MODEL=gemini-3.1-flash-lite
