@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Weekly Digest — Stay Sharp, Not Overwhelmed</title>
+  <title>AI Weekly Newsletter</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #07070f;
-      --surface:   #0f0f1e;
-      --border:    #1e1e3a;
-      --accent:    #6c6fff;
-      --accent2:   #a78bfa;
-      --text:      #e8e8f0;
-      --muted:     #7070a0;
-      --card-bg:   #12122a;
-      --success:   #34d399;
-      --error:     #f87171;
+      --bg:       #07070f;
+      --surface:  #0f0f1e;
+      --border:   #1c1c35;
+      --accent:   #6366f1;
+      --accent2:  #a78bfa;
+      --text:     #e8e8f0;
+      --muted:    #6b6b9a;
+      --card:     #11112a;
+      --success:  #34d399;
+      --error:    #f87171;
     }
 
     html { scroll-behavior: smooth; }
@@ -25,479 +25,428 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       font-size: 16px;
       line-height: 1.6;
       min-height: 100vh;
     }
 
-    /* ── Nav ─────────────────────────────────────────────────── */
+    /* ── Nav ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 40px;
-      background: rgba(7, 7, 15, 0.85);
-      backdrop-filter: blur(12px);
+      padding: 18px 48px;
+      background: rgba(7,7,15,0.9);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
     }
-    .nav-logo {
-      font-size: 15px; font-weight: 700; color: var(--text);
-      letter-spacing: -0.3px; text-decoration: none;
+    .logo { font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+    .logo span { color: var(--accent2); }
+    .nav-pill {
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 16px; border-radius: 20px;
     }
-    .nav-logo span { color: var(--accent); }
-    .nav-cta {
-      background: var(--accent); color: #fff;
-      padding: 8px 20px; border-radius: 8px;
-      font-size: 14px; font-weight: 600;
-      text-decoration: none; transition: opacity .15s;
-    }
-    .nav-cta:hover { opacity: .85; }
 
-    /* ── Hero ────────────────────────────────────────────────── */
+    /* ── Hero ── */
     .hero {
       min-height: 100vh;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
+      text-align: center; padding: 130px 24px 80px;
       position: relative; overflow: hidden;
     }
-    .hero::before {
-      content: "";
-      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
-      width: 700px; height: 700px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(108,111,255,.18) 0%, transparent 70%);
+    .glow {
+      position: absolute; top: -180px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,.15) 0%, transparent 70%);
       pointer-events: none;
     }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: rgba(108,111,255,.12); border: 1px solid rgba(108,111,255,.3);
-      color: var(--accent2); font-size: 13px; font-weight: 600;
-      padding: 6px 14px; border-radius: 20px; margin-bottom: 28px;
-      letter-spacing: .3px;
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(99,102,241,.1); border: 1px solid rgba(99,102,241,.25);
+      color: var(--accent2); font-size: 12px; font-weight: 600;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 32px;
+      letter-spacing: .4px; text-transform: uppercase;
     }
-    .hero-badge::before { content: "●"; font-size: 8px; color: var(--success); }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
+
     h1 {
-      font-size: clamp(36px, 6vw, 68px);
-      font-weight: 800; letter-spacing: -2px; line-height: 1.08;
-      margin-bottom: 22px;
+      font-size: clamp(38px, 6vw, 70px);
+      font-weight: 800; letter-spacing: -2.5px; line-height: 1.06;
+      margin-bottom: 24px;
     }
-    h1 span {
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .hero-sub {
-      font-size: clamp(16px, 2.2vw, 20px);
-      color: var(--muted); max-width: 560px;
-      margin: 0 auto 48px;
-      line-height: 1.7;
+    .sub {
+      font-size: clamp(16px, 2vw, 19px); color: var(--muted);
+      max-width: 520px; margin: 0 auto 52px; line-height: 1.75;
     }
 
-    /* ── Signup form ─────────────────────────────────────────── */
-    .signup-box {
-      width: 100%; max-width: 480px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
+    /* ── Form card ── */
+    .form-card {
+      width: 100%; max-width: 460px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 18px; padding: 36px;
     }
-    .signup-box label {
-      display: block; font-size: 13px; font-weight: 600;
-      color: var(--muted); margin-bottom: 8px; letter-spacing: .3px;
-      text-transform: uppercase;
+    .form-label {
+      display: block; font-size: 12px; font-weight: 700;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .6px;
+      margin-bottom: 10px;
     }
-    .signup-box input[type="email"] {
+    .form-input {
       width: 100%; background: var(--bg);
       border: 1px solid var(--border); border-radius: 10px;
       padding: 13px 16px; color: var(--text); font-size: 15px;
       outline: none; transition: border-color .2s;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
-    .signup-box input[type="email"]:focus { border-color: var(--accent); }
-    .signup-box input[type="email"]::placeholder { color: var(--muted); }
+    .form-input:focus { border-color: var(--accent); }
+    .form-input::placeholder { color: var(--muted); }
 
-    .submit-btn {
-      width: 100%;
-      background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+    .btn {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
       color: #fff; border: none; border-radius: 10px;
-      padding: 14px; font-size: 15px; font-weight: 700;
-      cursor: pointer; transition: opacity .15s, transform .1s;
-      letter-spacing: .2px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      transition: opacity .15s, transform .1s; letter-spacing: .1px;
     }
-    .submit-btn:hover { opacity: .9; transform: translateY(-1px); }
-    .submit-btn:active { transform: translateY(0); }
-    .submit-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .btn:hover  { opacity: .9; transform: translateY(-1px); }
+    .btn:active { transform: none; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 
     .form-note {
-      text-align: center; color: var(--muted);
-      font-size: 12px; margin-top: 14px;
+      text-align: center; color: var(--muted); font-size: 12px; margin-top: 14px;
     }
 
-    .status-msg {
+    /* Status */
+    .status {
       display: none; margin-top: 16px;
-      padding: 12px 16px; border-radius: 8px;
-      font-size: 14px; font-weight: 500; text-align: center;
+      padding: 13px 16px; border-radius: 10px;
+      font-size: 14px; line-height: 1.6; text-align: center;
     }
-    .status-msg.success { background: rgba(52,211,153,.12); color: var(--success); border: 1px solid rgba(52,211,153,.3); }
-    .status-msg.error   { background: rgba(248,113,113,.12); color: var(--error);   border: 1px solid rgba(248,113,113,.3); }
-
-    /* Loading spinner inside button */
-    .btn-spinner {
-      display: inline-block; width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,.3);
-      border-top-color: #fff; border-radius: 50%;
-      animation: spin .7s linear infinite; vertical-align: middle;
-      margin-right: 8px;
+    .status.success {
+      background: rgba(52,211,153,.1); color: var(--success);
+      border: 1px solid rgba(52,211,153,.25);
+    }
+    .status.error {
+      background: rgba(248,113,113,.1); color: var(--error);
+      border: 1px solid rgba(248,113,113,.25);
+    }
+    .spinner {
+      display: inline-block; width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,.25); border-top-color: #fff;
+      border-radius: 50%; animation: spin .65s linear infinite;
+      vertical-align: middle; margin-right: 8px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Stats strip ─────────────────────────────────────────── */
+    /* ── Stats ── */
     .stats {
-      display: flex; justify-content: center; gap: 48px;
-      flex-wrap: wrap; padding: 40px 24px;
+      display: flex; justify-content: center; gap: 56px;
+      flex-wrap: wrap; padding: 44px 24px;
+      background: var(--surface);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      background: var(--surface);
     }
     .stat { text-align: center; }
-    .stat-num { font-size: 30px; font-weight: 800; color: var(--accent2); letter-spacing: -1px; }
-    .stat-label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .stat-n { font-size: 32px; font-weight: 800; color: var(--accent2); letter-spacing: -1px; }
+    .stat-l { font-size: 13px; color: var(--muted); margin-top: 2px; }
 
-    /* ── Features ────────────────────────────────────────────── */
-    .features {
-      max-width: 1100px; margin: 0 auto;
-      padding: 100px 24px;
+    /* ── Features ── */
+    .features { max-width: 1060px; margin: 0 auto; padding: 96px 24px; }
+    .sec-tag {
+      text-align: center; font-size: 11px; font-weight: 700;
+      color: var(--accent); letter-spacing: 2.5px; text-transform: uppercase;
+      margin-bottom: 12px;
     }
-    .section-label {
-      text-align: center; font-size: 12px; font-weight: 700;
-      color: var(--accent); letter-spacing: 2px; text-transform: uppercase;
-      margin-bottom: 14px;
+    .sec-title {
+      text-align: center; font-size: clamp(24px, 3.5vw, 38px);
+      font-weight: 800; letter-spacing: -1px; margin-bottom: 56px;
     }
-    .section-title {
-      text-align: center; font-size: clamp(26px, 4vw, 40px);
-      font-weight: 800; letter-spacing: -1px; margin-bottom: 60px;
-    }
-    .features-grid {
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+      gap: 18px;
     }
-    .feature-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
+    .card {
+      background: var(--card); border: 1px solid var(--border);
       border-radius: 14px; padding: 28px;
       transition: border-color .2s, transform .2s;
     }
-    .feature-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-    .feature-icon {
-      font-size: 28px; margin-bottom: 14px; display: block;
-    }
-    .feature-card h3 {
-      font-size: 16px; font-weight: 700; margin-bottom: 8px;
-    }
-    .feature-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .icon { font-size: 26px; margin-bottom: 14px; display: block; }
+    .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .card p  { font-size: 14px; color: var(--muted); line-height: 1.7; }
 
-    /* ── How it works ────────────────────────────────────────── */
-    .how {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 100px 24px;
-    }
-    .how-inner { max-width: 800px; margin: 0 auto; }
-    .steps { display: flex; flex-direction: column; gap: 0; margin-top: 48px; }
+    /* ── Pipeline ── */
+    .pipeline { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 96px 24px; }
+    .pipeline-inner { max-width: 760px; margin: 0 auto; }
+    .steps { margin-top: 48px; }
     .step {
-      display: flex; gap: 24px; padding: 28px 0;
-      border-bottom: 1px solid var(--border);
+      display: flex; gap: 20px;
+      padding: 24px 0; border-bottom: 1px solid var(--border);
     }
-    .step:last-child { border-bottom: none; }
-    .step-num {
-      flex-shrink: 0;
-      width: 40px; height: 40px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+    .step:last-child { border: none; }
+    .step-n {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
       display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 800; color: #fff;
+      font-size: 13px; font-weight: 700; color: #fff;
     }
-    .step-content h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-    .step-content p  { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .step h3 { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+    .step p  { font-size: 14px; color: var(--muted); line-height: 1.7; }
 
-    /* ── Sources ─────────────────────────────────────────────── */
-    .sources {
-      max-width: 900px; margin: 0 auto; padding: 80px 24px;
-      text-align: center;
-    }
-    .source-chips {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
-      margin-top: 40px;
-    }
+    /* ── Sources ── */
+    .sources { max-width: 860px; margin: 0 auto; padding: 80px 24px; text-align: center; }
+    .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 36px; }
     .chip {
-      background: var(--card-bg); border: 1px solid var(--border);
+      background: var(--card); border: 1px solid var(--border);
       padding: 8px 18px; border-radius: 20px;
-      font-size: 13px; font-weight: 600; color: var(--text);
+      font-size: 13px; font-weight: 600;
     }
 
-    /* ── Final CTA ───────────────────────────────────────────── */
-    .cta-section {
-      text-align: center; padding: 100px 24px;
+    /* ── Bottom CTA ── */
+    .cta {
       background: var(--surface);
       border-top: 1px solid var(--border);
+      padding: 96px 24px; text-align: center;
     }
-    .cta-section h2 {
-      font-size: clamp(26px, 4vw, 42px);
-      font-weight: 800; letter-spacing: -1px; margin-bottom: 16px;
+    .cta h2 {
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 800; letter-spacing: -1px; margin-bottom: 14px;
     }
-    .cta-section p { color: var(--muted); margin-bottom: 40px; font-size: 17px; }
-    .cta-form {
-      display: flex; gap: 12px; max-width: 440px;
+    .cta p { color: var(--muted); margin-bottom: 40px; font-size: 17px; }
+    .cta-row {
+      display: flex; gap: 12px; max-width: 420px;
       margin: 0 auto; flex-wrap: wrap; justify-content: center;
     }
-    .cta-form input[type="email"] {
-      flex: 1; min-width: 220px;
-      background: var(--card-bg); border: 1px solid var(--border);
+    .cta-input {
+      flex: 1; min-width: 200px;
+      background: var(--card); border: 1px solid var(--border);
       border-radius: 10px; padding: 13px 16px;
       color: var(--text); font-size: 15px; outline: none;
       transition: border-color .2s;
     }
-    .cta-form input[type="email"]:focus { border-color: var(--accent); }
-    .cta-form input[type="email"]::placeholder { color: var(--muted); }
-    .cta-form button {
-      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+    .cta-input:focus { border-color: var(--accent); }
+    .cta-input::placeholder { color: var(--muted); }
+    .cta-btn {
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
       color: #fff; border: none; border-radius: 10px;
-      padding: 13px 24px; font-size: 15px; font-weight: 700;
-      cursor: pointer; white-space: nowrap; transition: opacity .15s;
+      padding: 13px 22px; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: opacity .15s; white-space: nowrap;
     }
-    .cta-form button:hover { opacity: .9; }
-    .cta-form button:disabled { opacity: .5; cursor: not-allowed; }
+    .cta-btn:hover { opacity: .9; }
+    .cta-btn:disabled { opacity: .45; cursor: not-allowed; }
     .cta-status {
       display: none; margin-top: 14px;
-      padding: 10px 16px; border-radius: 8px;
-      font-size: 14px; font-weight: 500;
+      padding: 12px 16px; border-radius: 10px;
+      font-size: 14px; line-height: 1.6;
     }
-    .cta-status.success { background: rgba(52,211,153,.12); color: var(--success); border: 1px solid rgba(52,211,153,.3); }
-    .cta-status.error   { background: rgba(248,113,113,.12); color: var(--error);   border: 1px solid rgba(248,113,113,.3); }
+    .cta-status.success { background: rgba(52,211,153,.1); color: var(--success); border: 1px solid rgba(52,211,153,.25); }
+    .cta-status.error   { background: rgba(248,113,113,.1); color: var(--error);   border: 1px solid rgba(248,113,113,.25); }
 
-    /* ── Footer ──────────────────────────────────────────────── */
+    /* ── Footer ── */
     footer {
-      text-align: center; padding: 32px 24px;
-      color: var(--muted); font-size: 13px;
+      text-align: center; padding: 28px 24px;
       border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 13px;
     }
 
-    /* ── Responsive ──────────────────────────────────────────── */
-    @media (max-width: 600px) {
+    @media (max-width: 580px) {
       nav { padding: 16px 20px; }
-      .stats { gap: 28px; }
-      .cta-form { flex-direction: column; }
-      .cta-form input, .cta-form button { width: 100%; }
+      .stats { gap: 30px; }
+      .cta-row { flex-direction: column; }
+      .cta-input, .cta-btn { width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav>
-    <a class="nav-logo" href="#"><span>AI</span> Weekly Newsletter</a>
-    <a class="nav-cta" href="#signup">Get This Week's Newsletter!</a>
-  </nav>
+<nav>
+  <div class="logo"><span>AI</span> Weekly Newsletter</div>
+  <div class="nav-pill">Running locally</div>
+</nav>
 
-  <!-- Hero -->
-  <section class="hero" id="top">
-    <div class="hero-badge">Powered by AI · Delivered to your inbox</div>
-    <p class="hero-sub">
-      Every week, we scan hundreds of posts, papers, and videos across
-      OpenAI, Anthropic, Google, Hacker News, and YouTube, that we then distill
-      it into a concise newsletter that you can read in under 10 minutes.
-    </p>
+<!-- Hero -->
+<section class="hero">
+  <div class="glow"></div>
+  <div class="badge"><span class="dot"></span>Powered by AI · Delivered to your inbox</div>
+  <h1>Stay sharp on AI.<br><em>Without the noise.</em></h1>
+  <p class="sub">
+    Every week, we scan hundreds of posts, papers, and videos across the major AI
+    companies and communities, then distill it into a concise Newsletter you can
+    read in under 10 minutes.
+  </p>
 
-    <div class="signup-box" id="signup">
-      <label for="hero-email">Your email address</label>
-      <input type="email" id="hero-email" placeholder="you@example.com" autocomplete="email">
-      <button class="submit-btn" id="hero-btn" onclick="submitForm('hero-email', 'hero-btn', 'hero-status')">
-        Send Me This Week's Newsletter →
-      </button>
-      <div class="status-msg" id="hero-status"></div>
-      <p class="form-note">Free. No spam. One email with this week's AI news, sent immediately.</p>
-    </div>
-  </section>
+  <div class="form-card">
+    <label class="form-label" for="hero-email">Your email address</label>
+    <input class="form-input" type="email" id="hero-email"
+           placeholder="you@example.com" autocomplete="email">
+    <button class="btn" id="hero-btn"
+            onclick="submit('hero-email','hero-btn','hero-status')">
+      Send me this week's Newsletter →
+    </button>
+  </div>
+</section>
 
-  <!-- Stats -->
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-num">5+</div>
-      <div class="stat-label">Sources monitored</div>
+<!-- Features -->
+<section class="features">
+  <h2 class="sec-title">Why Use AI Weekly Newsletter?</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Multi-source coverage</h3>
+      <p>We monitor OpenAI, Anthropic, and Google's official blogs, curated YouTube channels, and top AI discussions on Hacker News, all in one place.</p>
     </div>
-    <div class="stat">
-      <div class="stat-num">&lt;10 min</div>
-      <div class="stat-label">Reading time</div>
+    <div class="card">
+      <h3>AI-powered summaries</h3>
+      <p>Every article is summarized by an LLM with a clear brief: what happened, and why it actually matters.</p>
     </div>
-    <div class="stat">
-      <div class="stat-num">AI‑scored</div>
-      <div class="stat-label">Only the relevant stuff</div>
+    <div class="card">
+      <h3>Relevance scoring</h3>
+      <p>Each item is scored 1–10 for newsletter-worthiness. Anything below 5 is dropped. You only see what moved the needle this week.</p>
     </div>
-    <div class="stat">
-      <div class="stat-num">Up To Date</div>
-      <div class="stat-label">Fresh every week</div>
+    <div class="card">
+      <h3>Organized by section</h3>
+      <p>Major Releases, Research, AI Tools, Tutorials, Industry News, each in its own section so you jump straight to what's relevant.</p>
+    </div>
+    <div class="card">
+      <h3>Action items</h3>
+      <p>High-scoring tools and tutorials are surfaced as "worth trying this week", so the Newsletter changes what you do next.</p>
+    </div>
+    <div class="card">
+      <h3>Always linked to source</h3>
+      <p>Every summary links directly to the original article or video. We summarize, you decide if you want to go deeper.</p>
     </div>
   </div>
+</section>
 
-  <!-- Features -->
-  <section class="features">
-    <p class="section-label">Why AI Weekly Digest</p>
-    <h2 class="section-title">Everything you need to know.<br>Nothing you don't.</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <h3>Multi-source coverage</h3>
-        <p>We monitor OpenAI, Anthropic, and Google's official blogs, top AI channels on YouTube, and the best discussions on Hacker News.</p>
-      </div>
-      <div class="feature-card">
-        <h3>AI-powered summaries</h3>
-        <p>Every article is summarized by an LLM trained to cut the fluff: what happened, and why it actually matters to you as someone building with AI.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Relevance scoring</h3>
-        <p>Each piece is scored from 1–10 for relevance and importance. Anything below 5 is dropped. You only see what moved the needle this week.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Organized by section</h3>
-        <p>Major releases, research, tools, tutorials, industry news, each in its own section so you can jump straight to what matters.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Action items</h3>
-        <p>High-scoring tools and tutorials are surfaced separately as "worth trying this week".</p>
-      </div>
-      <div class="feature-card">
-        <h3>Always linked to source</h3>
-        <p>Every summary links directly to the original article, blog post, or video. We summarize, you decide if you want to go deeper.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- How it works -->
-  <section class="how">
-    <div class="how-inner">
-      <p class="section-label">How it works</p>
-      <h2 class="section-title">From raw internet to your inbox</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <h3>Collection</h3>
-            <p>We scan official AI company blogs, Hacker News, and curated YouTube channels for anything published in the last 7 days.</p>
-          </div>
+<!-- Pipeline -->
+<section class="pipeline">
+  <div class="pipeline-inner">
+    <p class="sec-tag">How it works</p>
+    <h2 class="sec-title">From the internet to your inbox</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div>
+          <h3>Collection</h3>
+          <p>Scans official AI company blogs, Hacker News, and curated YouTube channels for anything published in the last 7 days.</p>
         </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <h3>AI analysis</h3>
-            <p>Each piece is summarized, categorized, and scored for relevance by an LLM with a clear editorial brief: be specific, skip the hype, explain why it matters.</p>
-          </div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div>
+          <h3>AI analysis</h3>
+          <p>Each piece is summarized, categorized, and scored for relevance, what happened, and why it matters for someone building with AI.</p>
         </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-content">
-            <h3>Filtering</h3>
-            <p>Anything scoring below 5/10 is cut. Borderline pieces (5–6) are only kept if the summary has substance. You get the top 60–80% by default.</p>
-          </div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div>
+          <h3>Filtering</h3>
+          <p>Anything scoring below 5/10 is cut. You get the top signal only, typically 12–20 items from 50–100 collected.</p>
         </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-content">
-            <h3>Delivery</h3>
-            <p>A clean, well-structured HTML email lands in your inbox, readable in under 10 minutes, with every item linked back to its original source.</p>
-          </div>
+      </div>
+      <div class="step">
+        <div class="step-n">4</div>
+        <div>
+          <h3>Delivery</h3>
+          <p>A clean, structured HTML email lands in your inbox, readable in under 10 minutes, every item linked to its original source.</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Sources -->
-  <section class="sources">
-    <p class="section-label">Sources</p>
-    <div class="source-chips">
-      <span class="chip">OpenAI Blog</span>
-      <span class="chip">Anthropic News</span>
-      <span class="chip">Google AI Blog</span>
-      <span class="chip">Hacker News</span>
-      <span class="chip">All About AI</span>
-      <span class="chip">Matt Wolfe (mreflow)</span>
-      <span class="chip">Two Minute Papers</span>
-    </div>
-  </section>
+<!-- Sources -->
+<section class="sources">
+  <p class="sec-tag">Sources</p>
+  <div class="chips">
+    <span class="chip">OpenAI Blog</span>
+    <span class="chip">Anthropic News</span>
+    <span class="chip">Google AI Blog</span>
+    <span class="chip">Hacker News</span>
+    <span class="chip">All About AI</span>
+    <span class="chip">Matt Wolfe</span>
+    <span class="chip">Two Minute Papers</span>
+  </div>
+</section>
 
-  <!-- Bottom CTA -->
-  <section class="cta-section">
-    <h2>Ready to cut through the noise?</h2>
-    <p>Enter your email and get this week's newsletter in your inbox right now.</p>
-    <div class="cta-form">
-      <input type="email" id="cta-email" placeholder="you@example.com" autocomplete="email">
-      <button id="cta-btn" onclick="submitForm('cta-email', 'cta-btn', 'cta-status')">Send it →</button>
-    </div>
-    <div class="cta-status" id="cta-status"></div>
-  </section>
+<!-- Bottom CTA -->
+<section class="cta">
+  <h2>Ready to cut through the noise?</h2>
+  <p>Enter your email and get this week's Newsletter right now.</p>
+  <div class="cta-row">
+    <input class="cta-input" type="email" id="cta-email"
+           placeholder="you@example.com" autocomplete="email">
+    <button class="cta-btn" id="cta-btn"
+            onclick="submit('cta-email','cta-btn','cta-status')">Send it →</button>
+  </div>
+  <div class="cta-status" id="cta-status"></div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    <p>AI Weekly Digest &nbsp;·&nbsp; Built with Python, love, and way too many API calls.</p>
-  </footer>
+<footer>
+  <p>AI Weekly Newsletter &nbsp;·&nbsp; Running locally on your machine</p>
+</footer>
 
-  <script>
-    async function submitForm(emailId, btnId, statusId) {
-      const emailInput = document.getElementById(emailId);
-      const btn        = document.getElementById(btnId);
-      const statusEl   = document.getElementById(statusId);
-      const email      = emailInput.value.trim();
+<script>
+  async function submit(inputId, btnId, statusId) {
+    const input  = document.getElementById(inputId);
+    const btn    = document.getElementById(btnId);
+    const status = document.getElementById(statusId);
+    const email  = input.value.trim();
 
-      // Basic client-side validation
-      if (!email || !email.includes('@') || !email.includes('.')) {
-        showStatus(statusEl, 'error', 'Please enter a valid email address.');
-        return;
-      }
-
-      // Show loading state
-      const originalText = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = '<span class="btn-spinner"></span>Building your digest…';
-      statusEl.style.display = 'none';
-
-      try {
-        const res  = await fetch('/subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
-        });
-        const data = await res.json();
-
-        if (data.ok) {
-          showStatus(statusEl, 'success',
-            `✓ Your digest is on its way to ${email}! Check your inbox (and spam folder just in case).`
-          );
-          emailInput.value = '';
-        } else {
-          showStatus(statusEl, 'error', data.error || 'Something went wrong. Please try again.');
-        }
-      } catch (err) {
-        showStatus(statusEl, 'error', 'Network error — please check your connection and try again.');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-      }
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      show(status, 'error', '⚠ Please enter a valid email address.');
+      return;
     }
 
-    function showStatus(el, type, msg) {
-      el.className = 'status-msg ' + type;  // works for both hero and cta
-      if (el.id === 'cta-status') el.className = 'cta-status ' + type;
-      el.textContent = msg;
-      el.style.display = 'block';
-    }
+    const orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Building your Newsletter…';
+    status.style.display = 'none';
 
-    // Allow Enter key to submit from either email input
-    document.getElementById('hero-email').addEventListener('keydown', e => {
-      if (e.key === 'Enter') submitForm('hero-email', 'hero-btn', 'hero-status');
-    });
-    document.getElementById('cta-email').addEventListener('keydown', e => {
-      if (e.key === 'Enter') submitForm('cta-email', 'cta-btn', 'cta-status');
-    });
-  </script>
+    try {
+      const res  = await fetch('/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (data.ok) {
+        show(status, 'success',
+          `✓ Sent to ${email}! Check your inbox — and your spam folder just in case.`);
+        input.value = '';
+      } else {
+        show(status, 'error', data.error || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      show(status, 'error', 'Could not reach the server. Is web_app.py still running?');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = orig;
+    }
+  }
+
+  function show(el, type, msg) {
+    el.className = (el.id.startsWith('cta') ? 'cta-status ' : 'status ') + type;
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  document.getElementById('hero-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submit('hero-email', 'hero-btn', 'hero-status');
+  });
+  document.getElementById('cta-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submit('cta-email', 'cta-btn', 'cta-status');
+  });
+</script>
 </body>
 </html>
