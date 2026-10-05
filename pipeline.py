@@ -132,7 +132,7 @@ def run_and_deliver(to_email: str) -> dict:
 
     issue_date = datetime.now(tz=timezone.utc)
     html = generate_html(kept, issue_date=issue_date)
-
+    
     # Deliver
     try:
         send(
