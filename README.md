@@ -16,9 +16,8 @@ The system monitors five source types, processes everything through a multi-stag
 app/collectors/          One module per source. Each returns a list of Article objects.
 app/processors/          Stateless transforms: deduplicate → clean → summarize → categorize
 app/newsletter/          filter.py · html.py · email.py
-app/pipeline.py          Orchestrator used by both the CLI and the web app
-main_app.py              Flask web server (landing page + /subscribe endpoint)
-templates/               index.html — landing page served by Flask
+pipeline.py          Orchestrator used by both the CLI and the web app
+web_app.py              Flask web server (landing page + /subscribe endpoint)
 app/main.py              CLI entry point for local runs
 app/config.py            All settings loaded from .env — nothing hardcoded
 app/models.py            Article dataclass — the single internal data format
@@ -88,51 +87,92 @@ Python 3.12+
 
 ---
 
-## Configuration
-
-Copy `.env.example` to `.env` and fill in:
-
+## Quickstart
+ 
+### 1. Clone the repo
+ 
+```bash
+git clone https://github.com/YOUR_USERNAME/ai-weekly-digest.git
+cd ai-weekly-digest
 ```
-# LLM
+ 
+### 2. Install dependencies
+ 
+```bash
+pip install -r requirements.txt
+```
+ 
+### 3. Configure your keys
+ 
+```bash
+cp .env.example .env
+```
+ 
+Open `.env` and fill in:
+ 
+```env
+# LLM (Gemini free tier — get a key at aistudio.google.com)
 LLM_PROVIDER=gemini
-GEMINI_API_KEY=your-key
-GEMINI_MODEL=gemini-3.1-flash-lite
-GEMINI_REQUESTS_PER_MINUTE=10
-
-# Gmail (use an App Password, not your account password)
+GEMINI_API_KEY=your-key-here
+GEMINI_MODEL=gemini-2.0-flash-lite
+ 
+# Gmail (use an App Password, not your regular password)
+# Generate at: myaccount.google.com → Security → 2-Step Verification → App passwords
 GMAIL_ADDRESS=you@gmail.com
 GMAIL_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx
 DIGEST_RECIPIENT=you@gmail.com
-
-# Sources — all have sensible defaults, override as needed
-HN_MAX_RESULTS=25
-BLOG_MAX_RESULTS=20
-YOUTUBE_CHANNELS=@AllAboutAI,@mreflow,@TwoMinutePapers
 ```
-
-Obtain a Gmail App Password at: **myaccount.google.com → Security → 2-Step Verification → App passwords**
+ 
+### 4. Run
+ 
+**Option A — Web UI** (recommended for first-time use):
+```bash
+python app.py
+```
+Opens `http://localhost:5000` in your browser. Enter any email and click **Send digest**.
+ 
+**Option B — CLI** (good for automation/scheduling):
+```bash
+python app/main.py
+```
+Runs the full pipeline, saves `newsletter.html` locally, and sends the email.
+ 
+---
+ 
+## How the cache works
+ 
+The collection + AI analysis steps are expensive (~5–10 min, and they use your Gemini quota). To avoid re-running them unnecessarily, results are cached by date:
+ 
+| File | What it contains | Delete to re-run |
+|---|---|---|
+| `data_collected.json` | Raw collected + cleaned articles | Collection step |
+| `data_output_sample.json` | AI-analyzed articles (scores, summaries) | AI analysis step |
+ 
+Neither file is re-run automatically, if they exist, they're loaded and the pipeline skips straight to newsletter generation. Delete whichever file you want to re-run from that point forward.
+ 
+**Typical weekly flow:** delete both files, run once. Done.
 
 ---
-
-## Local Usage
-
+## Automating weekly runs
+ 
+If you want this to run automatically every Sunday without touching it, add a scheduled task:
+ 
+**Windows (Task Scheduler):**
+```
+Action: Start a program
+Program: python
+Arguments: C:\path\to\ai-weekly-digest\main.py
+Trigger: Weekly, Sunday, 09:00
+```
+ 
+**Mac/Linux (cron):**
 ```bash
-pip install -r requirements.txt
-cp .env.example .env   # fill in your keys
-
-python main.py         # full run — collect, analyze, filter, generate, send
+crontab -e
+# Add this line:
+0 9 * * 0 cd /path/to/ai-weekly-digest && python main.py
 ```
+ 
+Make sure to delete `data_collected.json` and `data_output_sample.json` at the start of each week (or add that to the script) so fresh news is collected.
+ 
+---
 
-**Checkpoint behavior** — delete the relevant file to re-run that stage:
-
-| Delete this file | To re-run |
-|---|---|
-| `data_collected.json` | Collection + enrichment + cleaning |
-| `data_output_sample.json` | AI analysis (LLM calls) |
-| *(neither)* | Newsletter generation + email only |
-GMAIL_APP_PASSWORD
-LLM_PROVIDER=gemini
-GEMINI_MODEL=gemini-3.1-flash-lite
-```
-
-The free tier is sufficient for this workload. No credit card required.
